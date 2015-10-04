@@ -1,0 +1,54 @@
+﻿<UserControl x:Class="Inventur.Views.DetailView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Inventur.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="600"
+             DataContext="{Binding Main, Source={StaticResource Locator}}">
+    <UserControl.Resources>
+        <Style TargetType="TextBox">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError"
+                         Value="true">
+                    <Setter Property="ToolTip" 
+                            Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors).CurrentItem.ErrorContent}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Artikelnummer:" Margin="100 0 5 0"/>
+                <TextBox Width="150" 
+                         Margin="0 0 5 0"  
+                         KeyDown="TextBox_KeyDown"
+                         Text="{Binding ArticleId,
+                                ValidatesOnExceptions=True,
+                                ValidatesOnDataErrors=True}"/>
+                <Label Content="Stückzahl:" />
+                <TextBox Width="50" 
+                         Text="{Binding Piece, 
+                                UpdateSourceTrigger=PropertyChanged,
+                                ValidatesOnExceptions=True,
+                                ValidatesOnDataErrors=True}"
+                         KeyDown="TextBox_KeyDown_1" />
+            </StackPanel>
+            <Grid Margin="0 10 0 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Button Content="Speichern" 
+                        Grid.Column="1" 
+                        Command="{Binding Add}"/>
+                <Button  Content="{Binding ClearDeleteName}" Grid.Column="3" Command="{Binding Clear}"/>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</UserControl>

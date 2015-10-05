@@ -25,12 +25,12 @@
                 <TextBox Width="150" 
                          Margin="0 0 5 0"  
                          KeyDown="TextBox_KeyDown"
-                         Text="{Binding ArticleId,
+                         Text="{Binding CurrentItem.ArticleId,
                                 ValidatesOnExceptions=True,
                                 ValidatesOnDataErrors=True}"/>
                 <Label Content="Stückzahl:" />
                 <TextBox Width="50" 
-                         Text="{Binding Piece, 
+                         Text="{Binding CurrentItem.Piece, 
                                 UpdateSourceTrigger=PropertyChanged,
                                 ValidatesOnExceptions=True,
                                 ValidatesOnDataErrors=True}"
@@ -44,10 +44,30 @@
                     <ColumnDefinition Width="2*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Button Content="Speichern" 
-                        Grid.Column="1" 
-                        Command="{Binding Add}"/>
-                <Button  Content="{Binding ClearDeleteName}" Grid.Column="3" Command="{Binding Clear}"/>
+                <Button Grid.Column="1" 
+                        Command="{Binding Add}">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding UpdateMode}" Value="False">
+                                    <Setter Property="Content">
+                                        <Setter.Value>
+                                            <TextBlock Text="Speichern" />
+                                        </Setter.Value>
+                                    </Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding UpdateMode}" Value="True">
+                                    <Setter Property="Content">
+                                        <Setter.Value>
+                                            <TextBlock Text="Ändern" />
+                                        </Setter.Value>
+                                    </Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button  Content="Inhalt löschen" Grid.Column="3" Command="{Binding Clear}"/>
             </Grid>
         </StackPanel>
     </Grid>

@@ -37,6 +37,17 @@
                 <DataGridTextColumn Header="Stück"
                                     Binding="{Binding Piece}"
                                     IsReadOnly="True" />
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="Delete"
+                                        Command="{Binding DataContext.DeleteItem, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                        CommandParameter="{Binding ElementName=dgInvented, Path=SelectedItem}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="SelectionChanged">

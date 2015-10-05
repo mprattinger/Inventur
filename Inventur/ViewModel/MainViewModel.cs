@@ -3,6 +3,7 @@ using GalaSoft.MvvmLight.Command;
 using Inventur.Model;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 
 namespace Inventur.ViewModel
 {
@@ -18,71 +19,9 @@ namespace Inventur.ViewModel
     /// See http://www.galasoft.ch/mvvm
     /// </para>
     /// </summary>
-    public class MainViewModel : ViewModelBase, IDataErrorInfo
+    public class MainViewModel : ViewModelBase //, IDataErrorInfo
     {
         #region Properties
-        /// <summary>
-        /// The <see cref="ArticleId" /> property's name.
-        /// </summary>
-        public const string ArticleIdPropertyName = "ArticleId";
-
-        private string _preArticleId = string.Empty;
-        private string _articleId = string.Empty;
-
-        /// <summary>
-        /// Sets and gets the ArticleId property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string ArticleId
-        {
-            get
-            {
-                return _articleId;
-            }
-
-            set
-            {
-                if (_articleId == value)
-                {
-                    return;
-                }
-
-                _articleId = value;
-                RaisePropertyChanged(ArticleIdPropertyName);
-            }
-        }
-
-        /// <summary>
-        /// The <see cref="Piece" /> property's name.
-        /// </summary>
-        public const string PiecePropertyName = "Piece";
-
-        private string _prePiece = string.Empty;
-        private string _piece = string.Empty;
-
-        /// <summary>
-        /// Sets and gets the Piece property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string Piece
-        {
-            get
-            {
-                return _piece;
-            }
-
-            set
-            {
-                if (_piece == value)
-                {
-                    return;
-                }
-
-                _piece = value;
-                RaisePropertyChanged(PiecePropertyName);
-            }
-        }
-
         /// <summary>
         /// The <see cref="Invented" /> property's name.
         /// </summary>
@@ -114,69 +53,70 @@ namespace Inventur.ViewModel
         }
 
         /// <summary>
-        /// The <see cref="ClearDeleteName" /> property's name.
+        /// The <see cref="CurrentItem" /> property's name.
         /// </summary>
-        public const string ClearDeleteNamePropertyName = "ClearDeleteName";
+        public const string CurrentItemPropertyName = "CurrentItem";
 
-        private string _clearDeleteName = "Inhalt löschen";
+        private InventurItemModel _currentItem = new InventurItemModel();
 
         /// <summary>
-        /// Sets and gets the ClearDeleteName property.
+        /// Sets and gets the CurrentItem property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public string ClearDeleteName
+        public InventurItemModel CurrentItem
         {
             get
             {
-                return _clearDeleteName;
+                return _currentItem;
             }
 
             set
             {
-                if (_clearDeleteName == value)
+                if (_currentItem == value)
                 {
                     return;
                 }
 
-                _clearDeleteName = value;
-                RaisePropertyChanged(ClearDeleteNamePropertyName);
+                _currentItem = value;
+                RaisePropertyChanged(CurrentItemPropertyName);
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="UpdateMode" /> property's name.
+        /// </summary>
+        public const string UpdateModePropertyName = "UpdateMode";
+
+        private bool _updateMode = false;
+
+        /// <summary>
+        /// Sets and gets the UpdateMode property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public bool UpdateMode
+        {
+            get
+            {
+                return _updateMode;
+            }
+
+            set
+            {
+                if (_updateMode == value)
+                {
+                    return;
+                }
+
+                _updateMode = value;
+                RaisePropertyChanged(UpdateModePropertyName);
             }
         }
 
         public RelayCommand Add { get; set; }
         public RelayCommand Clear { get; set; }
+        public RelayCommand Update { get; set; }
         public RelayCommand<InventurItemModel> ShowDetail { get; set; }
-        #endregion
-        #region ErrorHandling
-        public string this[string columnName]
-        {
-            get
-            {
-                string result = string.Empty;
-                switch (columnName)
-                {
-                    case "ArticleId":
-                        if (this.ArticleId == _preArticleId) break;
-                        if (string.IsNullOrEmpty(this.ArticleId)) result = "Bitte geben Sie eine Artikelnummer ein!";
-                        break;
-                    case "Piece":
-                        if (this.Piece == _prePiece) break;
-                        double n;
-                        if (string.IsNullOrEmpty(this.Piece)) result = "Bitte geben Sie eine Stückzahl ein!";
-                        else if (!double.TryParse(this.Piece, out n)) result = "Bitte nur Zahlen als Stückzahl eingeben!";
-                        _prePiece = this.Piece;
-                        break;
-                };
-                return result;
-            }
-        }
-        public string Error
-        {
-            get
-            {
-                return string.Empty;
-            }
-        }
+        public RelayCommand<InventurItemModel> DeleteItem { get; set; }
         #endregion
 
         /// <summary>
@@ -184,6 +124,8 @@ namespace Inventur.ViewModel
         /// </summary>
         public MainViewModel()
         {
+            this.UpdateMode = false;
+
             #region Commands
             this.Add = new RelayCommand(() =>
             {
@@ -191,20 +133,55 @@ namespace Inventur.ViewModel
             });
             this.Clear = new RelayCommand(() =>
             {
-
+                this.CurrentItem = new InventurItemModel();
             });
-            this.ShowDetail = new RelayCommand<InventurItemModel>((i)=> {
-                this.ArticleId = i.ArticleId;
-                this.Piece = i.Piece;
+            this.ShowDetail = new RelayCommand<InventurItemModel>((i) =>
+            {
+                this.CurrentItem = i;
+                this.UpdateMode = true;
+            });
+            this.DeleteItem = new RelayCommand<InventurItemModel>((i) =>
+            {
+                this.Invented.Remove(i);
             });
             #endregion
         }
 
-        public void AddItem() {
-            var item = new InventurItemModel();
-            item.ArticleId = this.ArticleId;
-            item.Piece = this.Piece;
-            this.Invented.Add(item);
+        public void AddItem()
+        {
+            //Gibt es Fehler?
+            if (this.CurrentItem.HasError()) return;
+
+            if (this.UpdateMode) updateItem();
+            else addItem();
+           
+            this.CurrentItem = new InventurItemModel();
+            UpdateMode = false;
+        }
+        private void addItem() {
+            //Zuerst prüfen ob es diesen Artikel schon in der Liste gibt:
+            var exists = this.Invented.FirstOrDefault(i => i.ArticleId == this.CurrentItem.ArticleId);
+            if (exists != null)
+            {
+                //Werte werden als String gespeichert -> Zuerst in eine Zahl umwandeln
+                double current, update;
+                double.TryParse(exists.Piece, out current);
+                double.TryParse(this.CurrentItem.Piece, out update);
+                current += update;
+                exists.Piece = current.ToString();
+            }
+            else
+            {
+                this.Invented.Add(this.CurrentItem);
+            }
+        }
+        private void updateItem() {
+            
+        }
+
+        private void updateData()
+        {
+
         }
     }
 }

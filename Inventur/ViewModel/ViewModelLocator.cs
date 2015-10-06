@@ -14,6 +14,7 @@
 
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
+using Inventur.Services;
 using Microsoft.Practices.ServiceLocation;
 
 namespace Inventur.ViewModel
@@ -43,6 +44,7 @@ namespace Inventur.ViewModel
             ////}
 
             SimpleIoc.Default.Register<MainViewModel>();
+            SimpleIoc.Default.Register<IDataService, DataService>(true);
         }
 
         public MainViewModel Main

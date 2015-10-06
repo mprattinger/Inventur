@@ -1,6 +1,7 @@
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Inventur.Model;
+using Inventur.Services;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -21,6 +22,8 @@ namespace Inventur.ViewModel
     /// </summary>
     public class MainViewModel : ViewModelBase //, IDataErrorInfo
     {
+        private IDataService _dataService;
+
         #region Properties
         /// <summary>
         /// The <see cref="Invented" /> property's name.
@@ -122,9 +125,12 @@ namespace Inventur.ViewModel
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
-        public MainViewModel()
+        public MainViewModel(IDataService dataService)
         {
+            this._dataService = dataService;
             this.UpdateMode = false;
+
+            loadData();
 
             #region Commands
             this.Add = new RelayCommand(() =>
@@ -157,6 +163,8 @@ namespace Inventur.ViewModel
            
             this.CurrentItem = new InventurItemModel();
             UpdateMode = false;
+
+            updateData();
         }
         private void addItem() {
             //Zuerst prüfen ob es diesen Artikel schon in der Liste gibt:
@@ -181,7 +189,10 @@ namespace Inventur.ViewModel
 
         private void updateData()
         {
-
+            _dataService.UpdateData(Invented);
+        }
+        private void loadData() {
+            this.Invented = _dataService.GetData();
         }
     }
 }

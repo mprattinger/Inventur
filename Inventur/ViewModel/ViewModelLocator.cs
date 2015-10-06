@@ -45,6 +45,7 @@ namespace Inventur.ViewModel
 
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<IDataService, DataService>(true);
+            SimpleIoc.Default.Register<IIOService, IOService>();
         }
 
         public MainViewModel Main

@@ -23,6 +23,7 @@ namespace Inventur.ViewModel
     public class MainViewModel : ViewModelBase //, IDataErrorInfo
     {
         private IDataService _dataService;
+        private IIOService _ioService;
 
         #region Properties
         /// <summary>
@@ -119,16 +120,17 @@ namespace Inventur.ViewModel
         public RelayCommand Add { get; set; }
         public RelayCommand Clear { get; set; }
         public RelayCommand Update { get; set; }
-        //public RelayCommand<InventurItemModel> ShowDetail { get; set; }
         public RelayCommand<InventurItemModel> DeleteItem { get; set; }
+        public RelayCommand ExportFile { get; set; }
         #endregion
 
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
-        public MainViewModel(IDataService dataService)
+        public MainViewModel(IDataService dataService, IIOService ioService)
         {
             this._dataService = dataService;
+            this._ioService = ioService;
             this.UpdateMode = false;
 
             loadData();
@@ -147,6 +149,10 @@ namespace Inventur.ViewModel
             {
                 this.Invented.Remove(i);
             });
+            this.ExportFile = new RelayCommand(()=> {
+                var fname = this._ioService.OpenSaveFileDialog();
+                this._dataService.CopyToTarget(fname);
+            }, () => _dataService.FileExists );
             #endregion
         }
 

@@ -111,7 +111,7 @@ namespace Inventur.Model
             }
             else RemoveError(PiecePropertyName, PIECE_ERROR_EMPTY);
 
-            if (!double.TryParse(this.Piece, out n))
+            if (!double.TryParse(value, out n))
             {
                 AddError(PiecePropertyName, PIECE_ERROR_NONUM, false);
                 isValid = false;
@@ -124,8 +124,6 @@ namespace Inventur.Model
 
         public InventurItemModel()
         {
-            this.ArticleId = string.Empty;
-            this.Piece = string.Empty;
         }
     }
 }

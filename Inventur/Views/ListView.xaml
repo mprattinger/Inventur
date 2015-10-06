@@ -10,23 +10,9 @@
              DataContext="{Binding Main, Source={StaticResource Locator}}"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <!--<ListBox ItemsSource="{Binding Invented}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="120" />
-                            <ColumnDefinition Width="50" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Text="{Binding ArticleId}" />
-                        <TextBlock Text="{Binding Piece}" 
-                                   Grid.Column="1"/>
-                    </Grid>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>-->
         <DataGrid x:Name="dgInvented"
                   ItemsSource="{Binding Invented}"
+                  SelectedItem="{Binding CurrentItem, UpdateSourceTrigger=PropertyChanged}"
                   AutoGenerateColumns="False"
                   RenderTransformOrigin="0.5,0.5"
                   IsReadOnly="True">
@@ -49,12 +35,12 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
-            <i:Interaction.Triggers>
+            <!--<i:Interaction.Triggers>
                 <i:EventTrigger EventName="SelectionChanged">
                     <mvvm:EventToCommand Command="{Binding ShowDetail}" 
                                          CommandParameter="{Binding ElementName=dgInvented, Path=SelectedItem}"/>
                 </i:EventTrigger>
-            </i:Interaction.Triggers>
+            </i:Interaction.Triggers>-->
         </DataGrid>
     </Grid>
 </UserControl>

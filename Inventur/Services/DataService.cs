@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -12,21 +13,24 @@ namespace Inventur.Services
     public interface IDataService
     {
         ObservableCollection<InventurItemModel> GetData();
-        void UpdateData(ObservableCollection<InventurItemModel> data);
+        Task UpdateData(ObservableCollection<InventurItemModel> data);
     }
 
     public class DataService : IDataService
     {
         private const string dataFileName = "inventur.csv";
+        private string baseDir = "";
         private string fileName = "";
         private ObservableCollection<InventurItemModel> _items;
+        private int count = 0;
 
         public DataService()
         {
             this._items = new ObservableCollection<InventurItemModel>();
-            var baseDir = Assembly.GetExecutingAssembly().CodeBase;
-            fileName = System.IO.Path.Combine(baseDir, "data", dataFileName);
-            createAndLoadDataFile();
+            baseDir = getBaseDirectory();
+            baseDir = Path.Combine(baseDir, "data");
+            fileName = Path.Combine(baseDir, dataFileName);
+            loadDataFile();
         }
 
         public ObservableCollection<InventurItemModel> GetData()
@@ -34,25 +38,53 @@ namespace Inventur.Services
             return _items;
         }
 
-        public void UpdateData(ObservableCollection<InventurItemModel> data)
+        public Task UpdateData(ObservableCollection<InventurItemModel> data)
         {
+            return Task.Run(async () =>
+            {
+                count++;
 
+                var fi = new FileInfo(fileName);
+
+                if (fi.Exists)
+                {
+                    await fi.DeleteAsync();
+                }
+
+                var lines = data.Select(i => i.ArticleId + ";" + i.Piece).ToList();
+
+                using (var sw = fi.CreateText()) {
+                    lines.ForEach(l => sw.WriteLine(l));
+                }
+            });
         }
 
-        private void createAndLoadDataFile()
+        private void loadDataFile()
         {
-            if (System.IO.File.Exists(fileName))
+            if (File.Exists(fileName))
             {
                 //Datei Laden
-                var lines = System.IO.File.ReadAllLines(fileName);
-                var splittet = lines.Select(l => l.Split(';'));
+                var lines = File.ReadAllLines(fileName).ToList();
+                lines.ForEach(l=>{
+                    var itm = new InventurItemModel();
+                    var spli = l.Split(';');
+                    itm.ArticleId = spli.First();
+                    itm.Piece = spli.Last();
+                    _items.Add(itm);
+                });
             }
-            else
-            {
-                //Datei erzeugen
-                System.IO.File.CreateText(fileName);
+            else {
+                if (!Directory.Exists(baseDir)) {
+                    Directory.CreateDirectory(baseDir);
+                }
             }
         }
 
+        private string getBaseDirectory() {
+            string codeBase = Assembly.GetExecutingAssembly().CodeBase;
+            UriBuilder uri = new UriBuilder(codeBase);
+            string path = Uri.UnescapeDataString(uri.Path);
+            return Path.GetDirectoryName(path);
+        }
     }
 }

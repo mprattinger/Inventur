@@ -82,6 +82,7 @@ namespace Inventur.ViewModel
 
                 _currentItem = value;
                 RaisePropertyChanged(CurrentItemPropertyName);
+                UpdateMode = true;
             }
         }
 
@@ -118,7 +119,7 @@ namespace Inventur.ViewModel
         public RelayCommand Add { get; set; }
         public RelayCommand Clear { get; set; }
         public RelayCommand Update { get; set; }
-        public RelayCommand<InventurItemModel> ShowDetail { get; set; }
+        //public RelayCommand<InventurItemModel> ShowDetail { get; set; }
         public RelayCommand<InventurItemModel> DeleteItem { get; set; }
         #endregion
 
@@ -140,11 +141,7 @@ namespace Inventur.ViewModel
             this.Clear = new RelayCommand(() =>
             {
                 this.CurrentItem = new InventurItemModel();
-            });
-            this.ShowDetail = new RelayCommand<InventurItemModel>((i) =>
-            {
-                this.CurrentItem = i;
-                this.UpdateMode = true;
+                UpdateMode = false;
             });
             this.DeleteItem = new RelayCommand<InventurItemModel>((i) =>
             {
@@ -158,8 +155,7 @@ namespace Inventur.ViewModel
             //Gibt es Fehler?
             if (this.CurrentItem.HasError()) return;
 
-            if (this.UpdateMode) updateItem();
-            else addItem();
+            if (!this.UpdateMode) addItem();
            
             this.CurrentItem = new InventurItemModel();
             UpdateMode = false;
@@ -183,13 +179,10 @@ namespace Inventur.ViewModel
                 this.Invented.Add(this.CurrentItem);
             }
         }
-        private void updateItem() {
-            
-        }
 
-        private void updateData()
+        private async void updateData()
         {
-            _dataService.UpdateData(Invented);
+            await _dataService.UpdateData(Invented);
         }
         private void loadData() {
             this.Invented = _dataService.GetData();

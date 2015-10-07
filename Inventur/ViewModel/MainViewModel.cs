@@ -1,5 +1,6 @@
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 using Inventur.Model;
 using Inventur.Services;
 using System.Collections.ObjectModel;
@@ -150,9 +151,13 @@ namespace Inventur.ViewModel
                 this.Invented.Remove(i);
             });
             this.ExportFile = new RelayCommand(()=> {
+                if (!_dataService.FileExists()) {
+                    Messenger.Default.Send<MboxMessage>(new MboxMessage() { Message = "Es wurden noch keine Artikel erfasst!",  Title = "Keine Artikel" });
+                    return;
+                }
                 var fname = this._ioService.OpenSaveFileDialog();
                 this._dataService.CopyToTarget(fname);
-            }, () => _dataService.FileExists );
+            });
             #endregion
         }
 

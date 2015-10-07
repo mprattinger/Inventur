@@ -12,11 +12,10 @@ namespace Inventur.Services
 {
     public interface IDataService
     {
-        bool FileExists { get; }
-
         ObservableCollection<InventurItemModel> GetData();
         Task UpdateData(ObservableCollection<InventurItemModel> data);
         void CopyToTarget(string target);
+        bool FileExists();
     }
 
     public class DataService : IDataService
@@ -26,11 +25,8 @@ namespace Inventur.Services
         private string fileName = "";
         private ObservableCollection<InventurItemModel> _items;
 
-        public bool FileExists { get; private set; }
-
         public DataService()
         {
-            FileExists = false;
             this._items = new ObservableCollection<InventurItemModel>();
             baseDir = getBaseDirectory();
             baseDir = Path.Combine(baseDir, "data");
@@ -58,7 +54,6 @@ namespace Inventur.Services
                 using (var sw = fi.CreateText()) {
                     lines.ForEach(l => sw.WriteLine(l));
                 }
-                FileExists = true;
             });
         }
 
@@ -75,7 +70,6 @@ namespace Inventur.Services
                     itm.Piece = spli.Last();
                     _items.Add(itm);
                 });
-                FileExists = true;
             }
             else {
                 if (!Directory.Exists(baseDir)) {
@@ -94,6 +88,10 @@ namespace Inventur.Services
         public void CopyToTarget(string target) {
             var fi = new FileInfo(fileName);
             fi.CopyTo(target, true);
+        }
+
+        public bool FileExists() {
+            return File.Exists(fileName);
         }
     }
 }

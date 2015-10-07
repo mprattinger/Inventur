@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight.Messaging;
+using Inventur.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +25,14 @@ namespace Inventur
         public MainWindow()
         {
             InitializeComponent();
+
+            this.Loaded += (s, e) => {
+                Messenger.Default.Register<MboxMessage>(this, (mes) => {
+                    MessageBox.Show(mes.Message, mes.Title);
+                });
+            };
+
+            this.Unloaded += (s, e) => { };
         }
     }
 }

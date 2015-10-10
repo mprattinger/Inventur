@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:Inventur"
         xmlns:views="clr-namespace:Inventur.Views"
         mc:Ignorable="d"
-        Title="Lautner Inventur" Height="350" Width="525">
+        Title="Lautner Inventur" Height="350" Width="525"
+        Icon="logo2_noblue.ico">
     <Window.Resources>
         <Style TargetType="TextBox">
             <Style.Triggers>

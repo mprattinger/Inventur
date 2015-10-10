@@ -37,7 +37,7 @@ namespace Inventur.ViewModel
         }
         public bool HasError() {
             if (errors.Count() > 0) return true;
-            else return false;
+            return false;
         }
         #endregion
 
@@ -54,7 +54,7 @@ namespace Inventur.ViewModel
         {
             get
             {
-                throw new NotImplementedException();
+                return String.Empty;
             }
         }
         #endregion

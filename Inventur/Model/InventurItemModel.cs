@@ -121,9 +121,5 @@ namespace Inventur.Model
             return isValid;
         }
         #endregion
-
-        public InventurItemModel()
-        {
-        }
     }
 }

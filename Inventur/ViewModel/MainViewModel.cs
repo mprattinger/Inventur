@@ -160,7 +160,27 @@ namespace Inventur.ViewModel
                     return;
                 }
                 var fname = this._ioService.OpenSaveFileDialog();
+                if (string.IsNullOrEmpty(fname)) return;
+                if (System.IO.File.Exists(fname))
+                {
+                    Messenger.Default.Send<MboxMessage>(new MboxMessage { Message = "Zieldatei exisitert bereits! Bitte anderen Dateiname wählen oder Zieldatei löschen!", Title = "Datei bereits vorhanden" });
+                    return;
+                }
                 this._dataService.CopyToTarget(fname);
+                if (System.IO.File.Exists(fname))
+                {
+                    Messenger.Default.Send<MboxMessage>(new MboxMessage { Message = "Datei wurde am Zielort angelegt!", Title = "Export beendet" });
+                }
+                else
+                {
+                    Messenger.Default.Send<MboxMessage>(new MboxMessage { Message = "Beim anlegen der Zieldatei ist ein Fehler aufgetreten! Bitte kontaktieren Sie Ihren Administrator ", Title = "Export fehler" });
+                    return;
+                }
+
+                _dataService.Init();
+                this.CurrentItem = new InventurItemModel();
+                UpdateMode = false;
+                loadData();
             });
 
             #endregion Commands

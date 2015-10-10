@@ -16,6 +16,7 @@ namespace Inventur.Services
         Task UpdateData(ObservableCollection<InventurItemModel> data);
         void CopyToTarget(string target);
         bool FileExists();
+        void Init();
     }
 
     public class DataService : IDataService
@@ -89,11 +90,16 @@ namespace Inventur.Services
 
         public void CopyToTarget(string target) {
             var fi = new FileInfo(fileName);
-            fi.CopyTo(target, true);
+            fi.MoveTo(target);
         }
 
         public bool FileExists() {
             return File.Exists(fileName);
+        }
+
+        public void Init() {
+            _items = new ObservableCollection<InventurItemModel>();
+            loadDataFile();
         }
     }
 }

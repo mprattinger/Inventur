@@ -4,7 +4,6 @@ using GalaSoft.MvvmLight.Messaging;
 using Inventur.Model;
 using Inventur.Services;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 
 namespace Inventur.ViewModel
@@ -23,10 +22,11 @@ namespace Inventur.ViewModel
     /// </summary>
     public class MainViewModel : ViewModelBase //, IDataErrorInfo
     {
-        private IDataService _dataService;
+        private readonly IDataService _dataService;
         private IIOService _ioService;
 
         #region Properties
+
         /// <summary>
         /// The <see cref="Invented" /> property's name.
         /// </summary>
@@ -36,7 +36,7 @@ namespace Inventur.ViewModel
 
         /// <summary>
         /// Sets and gets the Invented property.
-        /// Changes to that property's value raise the PropertyChanged event. 
+        /// Changes to that property's value raise the PropertyChanged event.
         /// </summary>
         public ObservableCollection<InventurItemModel> Invented
         {
@@ -66,7 +66,7 @@ namespace Inventur.ViewModel
 
         /// <summary>
         /// Sets and gets the CurrentItem property.
-        /// Changes to that property's value raise the PropertyChanged event. 
+        /// Changes to that property's value raise the PropertyChanged event.
         /// </summary>
         public InventurItemModel CurrentItem
         {
@@ -97,7 +97,7 @@ namespace Inventur.ViewModel
 
         /// <summary>
         /// Sets and gets the UpdateMode property.
-        /// Changes to that property's value raise the PropertyChanged event. 
+        /// Changes to that property's value raise the PropertyChanged event.
         /// </summary>
         public bool UpdateMode
         {
@@ -123,7 +123,8 @@ namespace Inventur.ViewModel
         public RelayCommand Update { get; set; }
         public RelayCommand<InventurItemModel> DeleteItem { get; set; }
         public RelayCommand ExportFile { get; set; }
-        #endregion
+
+        #endregion Properties
 
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
@@ -137,6 +138,7 @@ namespace Inventur.ViewModel
             loadData();
 
             #region Commands
+
             this.Add = new RelayCommand(() =>
             {
                 this.AddItem();
@@ -150,15 +152,18 @@ namespace Inventur.ViewModel
             {
                 this.Invented.Remove(i);
             });
-            this.ExportFile = new RelayCommand(()=> {
-                if (!_dataService.FileExists()) {
-                    Messenger.Default.Send<MboxMessage>(new MboxMessage() { Message = "Es wurden noch keine Artikel erfasst!",  Title = "Keine Artikel" });
+            this.ExportFile = new RelayCommand(() =>
+            {
+                if (!_dataService.FileExists())
+                {
+                    Messenger.Default.Send<MboxMessage>(new MboxMessage { Message = "Es wurden noch keine Artikel erfasst!", Title = "Keine Artikel" });
                     return;
                 }
                 var fname = this._ioService.OpenSaveFileDialog();
                 this._dataService.CopyToTarget(fname);
             });
-            #endregion
+
+            #endregion Commands
         }
 
         public void AddItem()
@@ -167,13 +172,15 @@ namespace Inventur.ViewModel
             if (this.CurrentItem.HasError()) return;
 
             if (!this.UpdateMode) addItem();
-           
+
             this.CurrentItem = new InventurItemModel();
             UpdateMode = false;
 
             updateData();
         }
-        private void addItem() {
+
+        private void addItem()
+        {
             //Zuerst prüfen ob es diesen Artikel schon in der Liste gibt:
             var exists = this.Invented.FirstOrDefault(i => i.ArticleId == this.CurrentItem.ArticleId);
             if (exists != null)
@@ -195,7 +202,9 @@ namespace Inventur.ViewModel
         {
             await _dataService.UpdateData(Invented);
         }
-        private void loadData() {
+
+        private void loadData()
+        {
             this.Invented = _dataService.GetData();
         }
     }

@@ -52,7 +52,9 @@ namespace Inventur.Services
                 var lines = data.Select(i => i.ArticleId + ";" + i.Piece).ToList();
 
                 using (var sw = fi.CreateText()) {
+#pragma warning disable RECS0002 // Convert anonymous method to method group
                     lines.ForEach(l => sw.WriteLine(l));
+#pragma warning restore RECS0002 // Convert anonymous method to method group
                 }
             });
         }
@@ -80,7 +82,7 @@ namespace Inventur.Services
 
         private string getBaseDirectory() {
             string codeBase = Assembly.GetExecutingAssembly().CodeBase;
-            UriBuilder uri = new UriBuilder(codeBase);
+            var uri = new UriBuilder(codeBase);
             string path = Uri.UnescapeDataString(uri.Path);
             return Path.GetDirectoryName(path);
         }

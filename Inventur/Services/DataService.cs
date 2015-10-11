@@ -16,6 +16,7 @@ namespace Inventur.Services
         Task UpdateData(ObservableCollection<InventurItemModel> data);
         void CopyToTarget(string target);
         bool FileExists();
+        void Init();
     }
 
     public class DataService : IDataService
@@ -52,7 +53,9 @@ namespace Inventur.Services
                 var lines = data.Select(i => i.ArticleId + ";" + i.Piece).ToList();
 
                 using (var sw = fi.CreateText()) {
+#pragma warning disable RECS0002 // Convert anonymous method to method group
                     lines.ForEach(l => sw.WriteLine(l));
+#pragma warning restore RECS0002 // Convert anonymous method to method group
                 }
             });
         }
@@ -80,18 +83,23 @@ namespace Inventur.Services
 
         private string getBaseDirectory() {
             string codeBase = Assembly.GetExecutingAssembly().CodeBase;
-            UriBuilder uri = new UriBuilder(codeBase);
+            var uri = new UriBuilder(codeBase);
             string path = Uri.UnescapeDataString(uri.Path);
             return Path.GetDirectoryName(path);
         }
 
         public void CopyToTarget(string target) {
             var fi = new FileInfo(fileName);
-            fi.CopyTo(target, true);
+            fi.MoveTo(target);
         }
 
         public bool FileExists() {
             return File.Exists(fileName);
+        }
+
+        public void Init() {
+            _items = new ObservableCollection<InventurItemModel>();
+            loadDataFile();
         }
     }
 }

@@ -181,6 +181,7 @@ namespace Inventur.ViewModel
                 this.CurrentItem = new InventurItemModel();
                 UpdateMode = false;
                 loadData();
+                Messenger.Default.Send<SetFocusArticleIdMessage>(new SetFocusArticleIdMessage());
             });
 
             #endregion Commands
@@ -197,6 +198,8 @@ namespace Inventur.ViewModel
             UpdateMode = false;
 
             updateData();
+
+            Messenger.Default.Send<SetFocusArticleIdMessage>(new SetFocusArticleIdMessage());
         }
 
         private void addItem()

@@ -1,4 +1,6 @@
-﻿using Inventur.ViewModel;
+﻿using GalaSoft.MvvmLight.Messaging;
+using Inventur.Model;
+using Inventur.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +26,13 @@ namespace Inventur.Views
         public DetailView()
         {
             InitializeComponent();
+
+            this.Loaded += (s, e) =>
+            {
+                Messenger.Default.Register<SetFocusArticleIdMessage>(this, msg => {
+                    this.ArticleId.Focus();
+                });
+            };
         }
 
         private void TextBox_KeyDown(object sender, KeyEventArgs e)

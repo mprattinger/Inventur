@@ -115,6 +115,7 @@
     <Compile Include="Model\FileExtensions.cs" />
     <Compile Include="Model\InventurItemModel.cs" />
     <Compile Include="Model\MboxMessage.cs" />
+    <Compile Include="Model\SetFocusArticleIdMessage.cs" />
     <Compile Include="Services\DataService.cs" />
     <Compile Include="Services\IOService.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />

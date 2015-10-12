@@ -198,6 +198,12 @@
   <ItemGroup>
     <Resource Include="logo2_noblue.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Inventur.Data\Inventur.Data.csproj">
+      <Project>{c4ea2524-93a1-49b6-b9fa-38b3238f68ab}</Project>
+      <Name>Inventur.Data</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

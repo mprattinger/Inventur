@@ -52,11 +52,12 @@ namespace Inventur.Services
 
                 var lines = data.Select(i => i.ArticleId + ";" + i.Piece).ToList();
 
-                using (var sw = fi.CreateText()) {
+                using (var sw = fi.CreateText())
+                {
 #pragma warning disable RECS0002 // Convert anonymous method to method group
-                    lines.ForEach(l => sw.WriteLine(l));
+                        lines.ForEach(l => sw.WriteLine(l));
 #pragma warning restore RECS0002 // Convert anonymous method to method group
-                }
+                    }
             });
         }
 
@@ -66,7 +67,8 @@ namespace Inventur.Services
             {
                 //Datei Laden
                 var lines = File.ReadAllLines(fileName).ToList();
-                lines.ForEach(l=>{
+                lines.ForEach(l =>
+                {
                     var itm = new InventurItemModel();
                     var spli = l.Split(';');
                     itm.ArticleId = spli.First();
@@ -74,30 +76,36 @@ namespace Inventur.Services
                     _items.Add(itm);
                 });
             }
-            else {
-                if (!Directory.Exists(baseDir)) {
+            else
+            {
+                if (!Directory.Exists(baseDir))
+                {
                     Directory.CreateDirectory(baseDir);
                 }
             }
         }
 
-        private string getBaseDirectory() {
+        private string getBaseDirectory()
+        {
             string codeBase = Assembly.GetExecutingAssembly().CodeBase;
             var uri = new UriBuilder(codeBase);
             string path = Uri.UnescapeDataString(uri.Path);
             return Path.GetDirectoryName(path);
         }
 
-        public void CopyToTarget(string target) {
+        public void CopyToTarget(string target)
+        {
             var fi = new FileInfo(fileName);
             fi.MoveTo(target);
         }
 
-        public bool FileExists() {
+        public bool FileExists()
+        {
             return File.Exists(fileName);
         }
 
-        public void Init() {
+        public void Init()
+        {
             _items = new ObservableCollection<InventurItemModel>();
             loadDataFile();
         }

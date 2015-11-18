@@ -14,7 +14,7 @@ namespace Inventur.App.ViewModel
 
 
         #region ErrorHandling
-        public void AddError(string propertyName, string error, bool isWarning)
+        public void AddError(string propertyName, string error, bool isWarning = false)
         {
             if (!errors.ContainsKey(propertyName))
                 errors[propertyName] = new List<string>();

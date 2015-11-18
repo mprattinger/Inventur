@@ -16,6 +16,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using Inventur.App.Modules.DataEntryModule.ViewModels;
 using Inventur.App.Modules.DataListModule.ViewModels;
+using Inventur.Data.Services;
 using Microsoft.Practices.ServiceLocation;
 
 namespace Inventur.App.ViewModel
@@ -47,6 +48,7 @@ namespace Inventur.App.ViewModel
             SimpleIoc.Default.Register<DataEntryViewModel>();
             SimpleIoc.Default.Register<DataListViewModel>();
 
+            SimpleIoc.Default.Register<IDataService, DataService>();
         }
 
         public DataEntryViewModel DataEntry

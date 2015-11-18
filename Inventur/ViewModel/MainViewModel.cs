@@ -1,6 +1,6 @@
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Messaging;
+//using Inventur.Data;
 using Inventur.Model;
 using Inventur.Services;
 using System.Collections.ObjectModel;
@@ -22,7 +22,8 @@ namespace Inventur.ViewModel
     /// </summary>
     public class MainViewModel : ViewModelBase //, IDataErrorInfo
     {
-        private readonly IDataService _dataService;
+        //private readonly IDataService _dataService;
+        //private readonly IInventurDataService _db;
         private IIOService _ioService;
 
         #region Properties
@@ -129,11 +130,12 @@ namespace Inventur.ViewModel
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
-        public MainViewModel(IDataService dataService, IIOService ioService)
+        public MainViewModel(IIOService ioService)//, IInventurDataService dbService)
         {
-            this._dataService = dataService;
+            //this._dataService = dataService;
             this._ioService = ioService;
             this.UpdateMode = false;
+            //_db = dbService;
 
             loadData();
 
@@ -154,30 +156,30 @@ namespace Inventur.ViewModel
             });
             this.ExportFile = new RelayCommand(() =>
             {
-                if (!_dataService.FileExists())
-                {
-                    Messenger.Default.Send<MboxMessage>(new MboxMessage { Message = "Es wurden noch keine Artikel erfasst!", Title = "Keine Artikel" });
-                    return;
-                }
-                var fname = this._ioService.OpenSaveFileDialog();
-                if (string.IsNullOrEmpty(fname)) return;
-                if (System.IO.File.Exists(fname))
-                {
-                    Messenger.Default.Send<MboxMessage>(new MboxMessage { Message = "Zieldatei exisitert bereits! Bitte anderen Dateiname wählen oder Zieldatei löschen!", Title = "Datei bereits vorhanden" });
-                    return;
-                }
-                this._dataService.CopyToTarget(fname);
-                if (System.IO.File.Exists(fname))
-                {
-                    Messenger.Default.Send<MboxMessage>(new MboxMessage { Message = "Datei wurde am Zielort angelegt!", Title = "Export beendet" });
-                }
-                else
-                {
-                    Messenger.Default.Send<MboxMessage>(new MboxMessage { Message = "Beim anlegen der Zieldatei ist ein Fehler aufgetreten! Bitte kontaktieren Sie Ihren Administrator ", Title = "Export fehler" });
-                    return;
-                }
+                //if (!_dataService.FileExists())
+                //{
+                //    Messenger.Default.Send<MboxMessage>(new MboxMessage { Message = "Es wurden noch keine Artikel erfasst!", Title = "Keine Artikel" });
+                //    return;
+                //}
+                //var fname = this._ioService.OpenSaveFileDialog();
+                //if (string.IsNullOrEmpty(fname)) return;
+                //if (System.IO.File.Exists(fname))
+                //{
+                //    Messenger.Default.Send<MboxMessage>(new MboxMessage { Message = "Zieldatei exisitert bereits! Bitte anderen Dateiname wählen oder Zieldatei löschen!", Title = "Datei bereits vorhanden" });
+                //    return;
+                //}
+                //this._dataService.CopyToTarget(fname);
+                //if (System.IO.File.Exists(fname))
+                //{
+                //    Messenger.Default.Send<MboxMessage>(new MboxMessage { Message = "Datei wurde am Zielort angelegt!", Title = "Export beendet" });
+                //}
+                //else
+                //{
+                //    Messenger.Default.Send<MboxMessage>(new MboxMessage { Message = "Beim anlegen der Zieldatei ist ein Fehler aufgetreten! Bitte kontaktieren Sie Ihren Administrator ", Title = "Export fehler" });
+                //    return;
+                //}
 
-                _dataService.Init();
+                //_dataService.Init();
                 this.CurrentItem = new InventurItemModel();
                 UpdateMode = false;
                 loadData();
@@ -218,14 +220,18 @@ namespace Inventur.ViewModel
             }
         }
 
-        private async void updateData()
+        private  void updateData()
         {
-            await _dataService.UpdateData(Invented);
+            //await _dataService.UpdateData(Invented);
+            //var data = CurrentItem.GetDbModel();
+            //await _db.UpdateInventedItem(data);
         }
 
         private void loadData()
         {
-            this.Invented = _dataService.GetData();
+            //this.Invented = _dataService.GetData();
+            //var data = _db.GetAll().Select(d => new InventurItemModel(d));
+            //this.Invented = new ObservableCollection<InventurItemModel>(data);
         }
     }
 }

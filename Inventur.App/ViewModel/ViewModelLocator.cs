@@ -1,7 +1,7 @@
 /*
   In App.xaml:
   <Application.Resources>
-      <vm:ViewModelLocator xmlns:vm="clr-namespace:Inventur"
+      <vm:ViewModelLocator xmlns:vm="clr-namespace:Inventur.App"
                            x:Key="Locator" />
   </Application.Resources>
   
@@ -14,11 +14,11 @@
 
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
-//using Inventur.Data;
-using Inventur.Services;
+using Inventur.App.Modules.DataEntryModule.ViewModels;
+using Inventur.App.Modules.DataListModule.ViewModels;
 using Microsoft.Practices.ServiceLocation;
 
-namespace Inventur.ViewModel
+namespace Inventur.App.ViewModel
 {
     /// <summary>
     /// This class contains static references to all the view models in the
@@ -44,20 +44,27 @@ namespace Inventur.ViewModel
             ////    SimpleIoc.Default.Register<IDataService, DataService>();
             ////}
 
-            SimpleIoc.Default.Register<MainViewModel>();
-            //SimpleIoc.Default.Register<IDataService, DataService>(true);
-            SimpleIoc.Default.Register<IIOService, IOService>();
-            //SimpleIoc.Default.Register<IInventurDataService, InventurDataService>();
+            SimpleIoc.Default.Register<DataEntryViewModel>();
+            SimpleIoc.Default.Register<DataListViewModel>();
+
         }
 
-        public MainViewModel Main
+        public DataEntryViewModel DataEntry
         {
             get
             {
-                return ServiceLocator.Current.GetInstance<MainViewModel>();
+                return ServiceLocator.Current.GetInstance<DataEntryViewModel>();
             }
         }
         
+        public DataListViewModel DataList
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<DataListViewModel>();
+            }
+        }
+
         public static void Cleanup()
         {
             // TODO Clear the ViewModels

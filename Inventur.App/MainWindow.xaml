@@ -1,0 +1,17 @@
+﻿<Window x:Class="Inventur.App.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Inventur.App"
+        xmlns:dataEntry="clr-namespace:Inventur.App.Modules.DataEntryModule.Views"
+        xmlns:dataList="clr-namespace:Inventur.App.Modules.DataListModule.Views"
+        mc:Ignorable="d"        
+        Title="MainWindow">
+    <Grid>
+        <StackPanel>
+            <dataEntry:DataEntryView />
+            <dataList:DataListView />
+        </StackPanel>
+    </Grid>
+</Window>

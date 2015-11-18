@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
+//using Inventur.Models;
 using Inventur.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,8 @@ namespace Inventur.Model
     {
         //public string ArticleId { get; set; }
         //public string Piece { get; set; }
+
+        //private InventedModel _dbModel; 
 
         #region Properties
         /// <summary>
@@ -84,6 +87,31 @@ namespace Inventur.Model
         private const string PIECE_ERROR_EMPTY = "Bitte geben Sie eine Stückzahl ein!";
         private const string PIECE_ERROR_NONUM = "Bitte nur Zahlen als Stückzahl eingeben!";
         #endregion
+
+        //public InventurItemModel(InventedModel dbModel = null)
+        //{
+        //    if (dbModel != null)
+        //    {
+        //        _dbModel = dbModel;
+        //        this.ArticleId = dbModel.ArticleId;
+        //        this.Piece = dbModel.Piece;
+        //    }
+        //}
+
+        //public InventedModel GetDbModel() {
+        //    InventedModel ret = null;
+        //    if (_dbModel == null)
+        //    {
+        //        ret = new InventedModel() { ArticleId = ArticleId, Piece = Piece };
+        //    }
+        //    else {
+        //        if (_dbModel.ArticleId != ArticleId) _dbModel.ArticleId = ArticleId;
+        //        if (_dbModel.Piece != Piece) _dbModel.Piece = Piece;
+        //        ret = _dbModel;
+        //    }
+        //    return ret;
+        //}
+
         #region PropertyValidation
         public bool IsArticleIdValid(string value)
         {

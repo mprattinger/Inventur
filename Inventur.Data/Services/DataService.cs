@@ -1,6 +1,7 @@
 ﻿using Inventur.Data.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,30 +10,53 @@ namespace Inventur.Data.Services
 {
     public interface IDataService
     {
-        bool DeleteData(InventurItem item);
-        List<InventurItem> GetData();
-        bool SaveData(InventurItem item, bool isNew = false);
+        Task<int> DeleteDataAsync(InventurItem item);
+        Task<List<InventurItem>> GetDataAsync();
+        Task<int> SaveDataAsync(InventurItem item, bool isNew = false);
     }
 
     public class DataService : IDataService
     {
-        public bool SaveData(InventurItem item, bool isNew = false)
+        //private InventurContext db = new InventurContext();*/
+
+        public async Task<int> SaveDataAsync(InventurItem item, bool isNew = false)
         {
-            bool ret = false;
-                     
-            return ret;
+            using (var db = new InventurContext())
+            {
+                item.ChangedAt = DateTime.Now;
+                if (isNew)
+                {
+                    item.CreatedAt = DateTime.Now;
+                    db.InventurItems.Add(item);
+                }
+                else
+                {
+                    db.InventurItems.Attach(item);
+                    var entry = db.Entry(item);
+                    entry.Property(x => x.EANCode).IsModified = true;
+                    entry.Property(x => x.ChangedAt).IsModified = true;
+                    entry.Property(x => x.Amount).IsModified = true;
+                }
+                return await db.SaveChangesAsync();
+            }
         }
 
-        public bool DeleteData(InventurItem item) {
-            bool ret = false;
-
-            return ret;
+        public async Task<int> DeleteDataAsync(InventurItem item)
+        {
+            using (var db = new InventurContext()) {
+                db.InventurItems.Attach(item);
+                db.InventurItems.Remove(item);
+                return await db.SaveChangesAsync();
+            }
         }
 
-        public List<InventurItem> GetData() {
-            var ret = new List<InventurItem>();
-
-            return ret;
+        public async Task<List<InventurItem>> GetDataAsync()
+        {
+            using (var db = new InventurContext()) {
+                return await (from i in db.InventurItems
+                                  orderby i.ChangedAt
+                                  select i).ToListAsync();
+            }
         }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
+using GalaSoft.MvvmLight.Threading;
 using Inventur.App.Contracts;
 using Inventur.App.ViewModel;
+using Inventur.Data.Models;
 using Inventur.Data.Services;
 using System;
 using System.Collections.Generic;
@@ -41,10 +43,11 @@ namespace Inventur.App.Modules.DataEntryModule.ViewModels
             _dataService = dataService;
 
             #region Commands
-            Add = new RelayCommand(() => {
+            Add = new RelayCommand(async () =>
+            {
                 if (CurrentItem.HasError()) return;
 
-                CurrentItem.Save();
+                await CurrentItem.Save();
 
                 init();
             });
@@ -52,15 +55,29 @@ namespace Inventur.App.Modules.DataEntryModule.ViewModels
             #endregion
 
             #region Messages
-            Messenger.Default.Register<ItemSelectedMessage>(this, item => {
-                CurrentItem = new InventurItemViewModel(_dataService, item.SelectedItem);
+            //Messenger.Default.Register<ItemSelectedMessage>(this, item =>
+            //{
+
+            //    DispatcherHelper.CheckBeginInvokeOnUI(() =>
+            //    {
+            //        CurrentItem = new InventurItemViewModel(_dataService, item.SelectedItem);
+            //    });
+            //});
+            Messenger.Default.Register<PropertyChangedMessage<InventurItem>>(this, msg => {
+                DispatcherHelper.CheckBeginInvokeOnUI(() => {
+                    var itm = new InventurItemViewModel(_dataService, msg.NewValue);
+                    CurrentItem = itm;
+                });
             });
             #endregion
 
-            init();
+            DispatcherHelper.Initialize();
+
+            if (!this.IsInDesignMode) init();
         }
 
-        private void init() {
+        private void init()
+        {
             CurrentItem = InventurItemViewModel.Factory(_dataService);
             Messenger.Default.Send<UpdateListMessage>(new UpdateListMessage());
         }

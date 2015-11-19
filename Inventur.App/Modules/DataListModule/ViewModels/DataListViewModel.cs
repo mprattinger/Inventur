@@ -25,8 +25,9 @@ namespace Inventur.App.Modules.DataListModule.ViewModels
             set
             {
                 if (_currentItem == value) return;
+                var old = _currentItem;
                 _currentItem = value;
-                RaisePropertyChanged("CurrentItem");
+                RaisePropertyChanged("CurrentItem", old, _currentItem, true);
             }
         }
 
@@ -51,14 +52,14 @@ namespace Inventur.App.Modules.DataListModule.ViewModels
             _dataService = dataService;
 
             #region Commands
-            Delete = new RelayCommand<InventurItem>(item =>
+            Delete = new RelayCommand<InventurItem>(async item =>
             {
-                _dataService.DeleteData(item);
+                await _dataService.DeleteDataAsync(item);
                 LoadData();
             });
             ItemChanged = new RelayCommand(() =>
             {
-                Messenger.Default.Send<ItemSelectedMessage>(new ItemSelectedMessage { SelectedItem = CurrentItem });
+                //Messenger.Default.Send<ItemSelectedMessage>(new ItemSelectedMessage { SelectedItem = CurrentItem });
             });
             #endregion
 
@@ -71,9 +72,9 @@ namespace Inventur.App.Modules.DataListModule.ViewModels
             LoadData();
         }
 
-        public void LoadData()
+        public async void LoadData()
         {
-            var data = _dataService.GetData();
+            var data = await _dataService.GetDataAsync();
             Items = new ObservableCollection<InventurItem>(data);
         }
 

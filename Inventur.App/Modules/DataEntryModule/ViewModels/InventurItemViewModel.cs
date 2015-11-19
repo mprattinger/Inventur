@@ -64,6 +64,9 @@ namespace Inventur.App.Modules.DataEntryModule.ViewModels
             _item = item;
             _update = update;
             _dataService = dataService;
+
+            ArticleId = _item.EANCode;
+            Piece = _item.Amount.ToString();
         }
         #endregion
 
@@ -74,27 +77,20 @@ namespace Inventur.App.Modules.DataEntryModule.ViewModels
         }
 
         #region Functions
-        public bool Save()
+        public async Task<int> Save()
         {
-            var ret = false;
-
             _item.EANCode = ArticleId;
             int amount;
             int.TryParse(Piece, out amount);
             _item.Amount = amount;
 
-            if (!_update)
-            {
-                //Neues
-                _dataService.SaveData(_item, true);
-            }
-            else
+            if (_update)
             {
                 //Updaten
-                _dataService.SaveData(_item);
-
+                return await _dataService.SaveDataAsync(_item);
             }
-            return ret;
+            //Neues
+            return await _dataService.SaveDataAsync(_item, true);
         }
         public bool Delete()
         {

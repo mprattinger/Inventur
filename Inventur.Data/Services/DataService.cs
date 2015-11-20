@@ -54,7 +54,7 @@ namespace Inventur.Data.Services
         {
             using (var db = new InventurContext()) {
                 return await (from i in db.InventurItems
-                                  orderby i.ChangedAt
+                                  orderby i.ChangedAt descending
                                   select i).ToListAsync();
             }
         }

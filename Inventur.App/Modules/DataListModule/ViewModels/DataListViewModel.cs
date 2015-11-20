@@ -16,6 +16,7 @@ namespace Inventur.App.Modules.DataListModule.ViewModels
     public class DataListViewModel : InventurViewModelBase
     {
         readonly IDataService _dataService;
+        private bool _isLoading;
 
         #region Properties
         private InventurItem _currentItem;
@@ -27,7 +28,8 @@ namespace Inventur.App.Modules.DataListModule.ViewModels
                 if (_currentItem == value) return;
                 var old = _currentItem;
                 _currentItem = value;
-                RaisePropertyChanged("CurrentItem", old, _currentItem, true);
+                RaisePropertyChanged("CurrentItem");
+                //RaisePropertyChanged("CurrentItem", old, _currentItem, true);
             }
         }
 
@@ -59,7 +61,8 @@ namespace Inventur.App.Modules.DataListModule.ViewModels
             });
             ItemChanged = new RelayCommand(() =>
             {
-                //Messenger.Default.Send<ItemSelectedMessage>(new ItemSelectedMessage { SelectedItem = CurrentItem });
+                if (_isLoading) return;
+                Messenger.Default.Send<ItemSelectedMessage>(new ItemSelectedMessage { SelectedItem = CurrentItem });
             });
             #endregion
 
@@ -74,8 +77,10 @@ namespace Inventur.App.Modules.DataListModule.ViewModels
 
         public async void LoadData()
         {
+            _isLoading = true;
             var data = await _dataService.GetDataAsync();
             Items = new ObservableCollection<InventurItem>(data);
+            _isLoading = false;
         }
 
 

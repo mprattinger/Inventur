@@ -45,6 +45,7 @@ namespace Inventur.App.Modules.DataEntryModule.ViewModels
             #region Commands
             Add = new RelayCommand(async () =>
             {
+                CurrentItem.CheckValid();
                 if (CurrentItem.HasError()) return;
 
                 await CurrentItem.Save();
@@ -55,20 +56,20 @@ namespace Inventur.App.Modules.DataEntryModule.ViewModels
             #endregion
 
             #region Messages
-            //Messenger.Default.Register<ItemSelectedMessage>(this, item =>
-            //{
+            Messenger.Default.Register<ItemSelectedMessage>(this, item =>
+            {
 
-            //    DispatcherHelper.CheckBeginInvokeOnUI(() =>
-            //    {
-            //        CurrentItem = new InventurItemViewModel(_dataService, item.SelectedItem);
-            //    });
-            //});
-            Messenger.Default.Register<PropertyChangedMessage<InventurItem>>(this, msg => {
-                DispatcherHelper.CheckBeginInvokeOnUI(() => {
-                    var itm = new InventurItemViewModel(_dataService, msg.NewValue);
-                    CurrentItem = itm;
+                DispatcherHelper.CheckBeginInvokeOnUI(() =>
+                {
+                    CurrentItem = new InventurItemViewModel(_dataService, item.SelectedItem);
                 });
             });
+            //Messenger.Default.Register<PropertyChangedMessage<InventurItem>>(this, msg => {
+            //    DispatcherHelper.CheckBeginInvokeOnUI(() => {
+            //        var itm = new InventurItemViewModel(_dataService, msg.NewValue);
+            //        CurrentItem = itm;
+            //    });
+            //});
             #endregion
 
             DispatcherHelper.Initialize();

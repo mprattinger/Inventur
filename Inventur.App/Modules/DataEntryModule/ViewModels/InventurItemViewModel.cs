@@ -56,8 +56,8 @@ namespace Inventur.App.Modules.DataEntryModule.ViewModels
         public InventurItemViewModel(IDataService dataService) {
             _dataService = dataService;
             _item = new InventurItem();
-            ArticleId = String.Empty;
-            Piece = String.Empty;
+            //ArticleId = String.Empty;
+            //Piece = String.Empty;
         }
         public InventurItemViewModel(IDataService dataService, InventurItem item, bool update = true)
         {
@@ -145,6 +145,22 @@ namespace Inventur.App.Modules.DataEntryModule.ViewModels
             
 
             return isValid;
+        }
+
+        public bool CheckValid() {
+            var ret = true;
+
+
+            if (!IsArticleIdValid(ArticleId)) {
+                if (String.IsNullOrEmpty(ArticleId)) ArticleId = string.Empty;
+                ret = false;
+            }
+            if (!IsPieceValid(Piece)) {
+                if (string.IsNullOrEmpty(Piece)) Piece = string.Empty;
+                ret = false;
+            }
+
+            return ret;
         }
         #endregion
     }

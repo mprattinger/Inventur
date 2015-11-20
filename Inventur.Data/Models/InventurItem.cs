@@ -16,5 +16,7 @@ namespace Inventur.Data.Models
 
         public string EANCode { get; set; }
         public int Amount { get; set; }
+
+        public bool Exported { get; set; }
     }
 }

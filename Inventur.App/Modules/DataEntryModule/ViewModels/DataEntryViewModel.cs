@@ -64,15 +64,7 @@ namespace Inventur.App.Modules.DataEntryModule.ViewModels
                     CurrentItem = new InventurItemViewModel(_dataService, item.SelectedItem);
                 });
             });
-            //Messenger.Default.Register<PropertyChangedMessage<InventurItem>>(this, msg => {
-            //    DispatcherHelper.CheckBeginInvokeOnUI(() => {
-            //        var itm = new InventurItemViewModel(_dataService, msg.NewValue);
-            //        CurrentItem = itm;
-            //    });
-            //});
             #endregion
-
-            DispatcherHelper.Initialize();
 
             if (!this.IsInDesignMode) init();
         }

@@ -72,7 +72,7 @@ namespace Inventur.App.Modules.DataListModule.ViewModels
             });
             #endregion
 
-            LoadData();
+            if(!IsInDesignMode) LoadData();
         }
 
         public async void LoadData()

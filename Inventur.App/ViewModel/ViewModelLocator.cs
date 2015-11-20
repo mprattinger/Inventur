@@ -16,6 +16,8 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using Inventur.App.Modules.DataEntryModule.ViewModels;
 using Inventur.App.Modules.DataListModule.ViewModels;
+using Inventur.App.Modules.ExportModule.Services;
+using Inventur.App.Modules.ExportModule.ViewModels;
 using Inventur.Data.Services;
 using Microsoft.Practices.ServiceLocation;
 
@@ -47,8 +49,10 @@ namespace Inventur.App.ViewModel
 
             SimpleIoc.Default.Register<DataEntryViewModel>();
             SimpleIoc.Default.Register<DataListViewModel>();
+            SimpleIoc.Default.Register<ExportViewModel>();
 
             SimpleIoc.Default.Register<IDataService, DataService>();
+            SimpleIoc.Default.Register<IFileService, FileService>();
         }
 
         public DataEntryViewModel DataEntry
@@ -58,12 +62,20 @@ namespace Inventur.App.ViewModel
                 return ServiceLocator.Current.GetInstance<DataEntryViewModel>();
             }
         }
-        
+
         public DataListViewModel DataList
         {
             get
             {
                 return ServiceLocator.Current.GetInstance<DataListViewModel>();
+            }
+        }
+
+        public ExportViewModel Export
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<ExportViewModel>();
             }
         }
 

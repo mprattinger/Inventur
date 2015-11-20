@@ -13,6 +13,7 @@ namespace Inventur.Data.Services
         Task<int> DeleteDataAsync(InventurItem item);
         Task<List<InventurItem>> GetDataAsync();
         Task<int> SaveDataAsync(InventurItem item, bool isNew = false);
+        Task<bool> SetExportedAsync();
     }
 
     public class DataService : IDataService
@@ -54,8 +55,20 @@ namespace Inventur.Data.Services
         {
             using (var db = new InventurContext()) {
                 return await (from i in db.InventurItems
+                              where i.Exported == false
                                   orderby i.ChangedAt descending
                                   select i).ToListAsync();
+            }
+        }
+
+        public async Task<bool> SetExportedAsync()
+        {
+            using (var db = new InventurContext())
+            {
+                await db.InventurItems.Where(x => x.Exported == false).ForEachAsync<InventurItem>(y => y.Exported = true);
+                var changes = await db.SaveChangesAsync();
+                if (changes > 0) return true;
+                return false;
             }
         }
     }

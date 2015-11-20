@@ -87,6 +87,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Contracts\ItemSelectedMessage.cs" />
+    <Compile Include="Contracts\MboxMessage.cs" />
+    <Compile Include="Contracts\RelayCommandAsync.cs" />
     <Compile Include="Contracts\UpdateListMessage.cs" />
     <Compile Include="Modules\DataEntryModule\ViewModels\DataEntryViewModel.cs" />
     <Compile Include="Modules\DataEntryModule\ViewModels\InventurItemViewModel.cs" />
@@ -96,6 +98,11 @@
     <Compile Include="Modules\DataListModule\ViewModels\DataListViewModel.cs" />
     <Compile Include="Modules\DataListModule\Views\DataListView.xaml.cs">
       <DependentUpon>DataListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\ExportModule\Services\FileService.cs" />
+    <Compile Include="Modules\ExportModule\ViewModels\ExportViewModel.cs" />
+    <Compile Include="Modules\ExportModule\Views\ExportView.xaml.cs">
+      <DependentUpon>ExportView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\InventurViewModelBase.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
@@ -116,6 +123,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Modules\DataListModule\Views\DataListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\ExportModule\Views\ExportView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

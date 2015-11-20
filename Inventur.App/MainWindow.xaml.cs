@@ -1,4 +1,7 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight.Messaging;
+using GalaSoft.MvvmLight.Threading;
+using Inventur.App.Contracts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +26,19 @@ namespace Inventur.App
         public MainWindow()
         {
             InitializeComponent();
+
+            this.Loaded += (s, e) =>
+            {
+                Messenger.Default.Register<MboxMessage>(this, (msg) => {
+                    //DispatcherHelper.CheckBeginInvokeOnUI(()=> {
+                    //    MessageBox.Show(msg.Message, msg.Title);
+                    //});
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        MessageBox.Show(msg.Message, msg.Title);
+                    });
+                });
+            };
         }
     }
 }

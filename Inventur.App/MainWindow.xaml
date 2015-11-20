@@ -9,7 +9,7 @@
         xmlns:export="clr-namespace:Inventur.App.Modules.ExportModule.Views"
         mc:Ignorable="d" 
         Width="768"
-        Title="MainWindow" Height="600">
+        Title="Lautner Inventur Tool 2.0" Height="600">
     <Grid>
         <StackPanel>
             <export:ExportView Margin="386 10 200 0"/>

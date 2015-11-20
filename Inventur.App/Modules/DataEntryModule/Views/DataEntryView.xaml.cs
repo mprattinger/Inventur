@@ -41,6 +41,8 @@ namespace Inventur.App.Modules.DataEntryModule.Views
             {
                 var vm = (DataEntryViewModel)DataContext;
                 vm.Add.Execute(null);
+                var tb = (TextBox)sender;
+                tb.MoveFocus(new TraversalRequest(FocusNavigationDirection.Previous));
             }
         }
     }

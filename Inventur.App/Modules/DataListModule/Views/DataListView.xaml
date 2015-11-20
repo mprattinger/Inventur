@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="Inventur.App.Modules.DataListModule.Views.DataListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Inventur.App.Modules.DataListModule.Views"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:mvvm="http://www.galasoft.ch/mvvmlight"
+             mc:Ignorable="d" DataContext="{Binding DataList, Mode=OneWay, Source={StaticResource Locator}}" >
+    <Grid>
+        <DataGrid x:Name="dgInvented" ItemsSource="{Binding Items}" 
+                  SelectedItem="{Binding CurrentItem, UpdateSourceTrigger=PropertyChanged}"
+                  AutoGenerateColumns="False"
+                  RenderTransformOrigin="0.5,0.5"
+                  IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Artikelnummer"
+                                    IsReadOnly="True" Binding="{Binding EANCode}" />
+                <DataGridTextColumn Header="Stück"
+                                    IsReadOnly="True" Binding="{Binding Amount}" />
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="Delete" 
+                                        Command="{Binding DataContext.Delete, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                        CommandParameter="{Binding ElementName=dgInvented, Path=SelectedItem}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <mvvm:EventToCommand Command="{Binding ItemChanged}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </DataGrid>
+    </Grid>
+</UserControl>

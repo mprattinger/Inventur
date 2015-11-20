@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="Inventur.App.Modules.DataEntryModule.Views.DataEntryView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Inventur.App.Modules.DataEntryModule.Views"
+             mc:Ignorable="d" DataContext="{Binding DataEntry, Mode=OneWay, Source={StaticResource Locator}}" >
+    <UserControl.Resources>
+        <Style TargetType="TextBox">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError"
+                         Value="true">
+                    <Setter Property="ToolTip" 
+                            Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors).CurrentItem.ErrorContent}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <StackPanel Margin="100 0 0 0">
+            <StackPanel Orientation="Horizontal"
+                        Margin="0 20 0 0"  >
+                <Label Content="Artikelnummer: "
+                       Margin="0 0 10 0"/>
+                <TextBox Width="150"
+                         Margin="0 0 10 0" KeyDown="TextBox_KeyDown" Text="{Binding CurrentItem.ArticleId, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" />
+                <Label Content="Stück: "
+                       Margin="0 0 10 0 "/>
+                <TextBox Width="50" 
+                         Margin="0 0 5 0" KeyDown="TextBox_KeyDown_1" 
+                         Text="{Binding CurrentItem.Piece, 
+                    ValidatesOnDataErrors=True, 
+                    ValidatesOnExceptions=True,
+                    UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal"
+                        Margin="200 10 0 0">
+                <Button Content="Inventieren" 
+                        Margin="0 0 20 0"
+                        Width="110" Command="{Binding Add, Mode=OneWay}"/>
+                <Button Content="Zurücksetzen"
+                        Margin="0 0 5 0" 
+                        Width="110" Command="{Binding Clear, Mode=OneWay}"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -3,9 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventur.Data", "Inventur.Data\Inventur.Data.csproj", "{5BCDB910-A4C3-4F82-8DBC-CC0EA60B0822}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventur.App", "Inventur.App\Inventur.App.csproj", "{9055BAFB-70A6-4B76-8CA7-3EDC694C97D9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventur", "Inventur\Inventur.csproj", "{3265FFC0-333A-4D8F-9841-32F2442C6F62}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5BCDB910-A4C3-4F82-8DBC-CC0EA60B0822}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5BCDB910-A4C3-4F82-8DBC-CC0EA60B0822}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5BCDB910-A4C3-4F82-8DBC-CC0EA60B0822}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5BCDB910-A4C3-4F82-8DBC-CC0EA60B0822}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9055BAFB-70A6-4B76-8CA7-3EDC694C97D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9055BAFB-70A6-4B76-8CA7-3EDC694C97D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9055BAFB-70A6-4B76-8CA7-3EDC694C97D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9055BAFB-70A6-4B76-8CA7-3EDC694C97D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3265FFC0-333A-4D8F-9841-32F2442C6F62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3265FFC0-333A-4D8F-9841-32F2442C6F62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3265FFC0-333A-4D8F-9841-32F2442C6F62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3265FFC0-333A-4D8F-9841-32F2442C6F62}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -5,8 +5,6 @@ using Inventur.App.ViewModel;
 using Inventur.Contracts.Interfaces;
 using Inventur.Contracts.Messaging;
 using Inventur.Contracts.Models;
-using Inventur.Data.Models;
-using Inventur.Data.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

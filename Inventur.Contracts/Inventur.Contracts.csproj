@@ -4,15 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5BCDB910-A4C3-4F82-8DBC-CC0EA60B0822}</ProjectGuid>
+    <ProjectGuid>{9F380630-CD76-4051-A593-7C5A10A90D0A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Inventur.Data</RootNamespace>
-    <AssemblyName>Inventur.Data</AssemblyName>
+    <RootNamespace>Inventur.Contracts</RootNamespace>
+    <AssemblyName>Inventur.Contracts</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,16 +30,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -51,36 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\201511192110351_InitialCreate.cs" />
-    <Compile Include="Migrations\201511192110351_InitialCreate.Designer.cs">
-      <DependentUpon>201511192110351_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201511201614016_test.cs" />
-    <Compile Include="Migrations\201511201614016_test.Designer.cs">
-      <DependentUpon>201511201614016_test.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\InventurContext.cs" />
+    <Compile Include="Interfaces\IDataService.cs" />
+    <Compile Include="Messaging\ItemSelectedMessage.cs" />
+    <Compile Include="Messaging\MboxMessage.cs" />
+    <Compile Include="Messaging\UpdateListMessage.cs" />
+    <Compile Include="Models\InventurItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\DataService.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201511192110351_InitialCreate.resx">
-      <DependentUpon>201511192110351_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201511201614016_test.resx">
-      <DependentUpon>201511201614016_test.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Inventur.Contracts\Inventur.Contracts.csproj">
-      <Project>{9f380630-cd76-4051-a593-7c5a10a90d0a}</Project>
-      <Name>Inventur.Contracts</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -3,6 +3,8 @@ using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using Inventur.App.Contracts;
 using Inventur.App.Modules.ExportModule.Services;
+using Inventur.Contracts.Interfaces;
+using Inventur.Contracts.Messaging;
 using Inventur.Data.Services;
 using System;
 using System.Collections.Generic;

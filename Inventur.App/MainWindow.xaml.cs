@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Threading;
 using Inventur.App.Contracts;
+using Inventur.Contracts.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Linq;

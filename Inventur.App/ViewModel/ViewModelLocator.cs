@@ -18,6 +18,7 @@ using Inventur.App.Modules.DataEntryModule.ViewModels;
 using Inventur.App.Modules.DataListModule.ViewModels;
 using Inventur.App.Modules.ExportModule.Services;
 using Inventur.App.Modules.ExportModule.ViewModels;
+using Inventur.Contracts.Interfaces;
 using Inventur.Data.Services;
 using Microsoft.Practices.ServiceLocation;
 

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventur.App", "Inventur.Ap
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventur.Data", "Inventur.Data\Inventur.Data.csproj", "{5BCDB910-A4C3-4F82-8DBC-CC0EA60B0822}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventur.Contracts", "Inventur.Contracts\Inventur.Contracts.csproj", "{9F380630-CD76-4051-A593-7C5A10A90D0A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{5BCDB910-A4C3-4F82-8DBC-CC0EA60B0822}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5BCDB910-A4C3-4F82-8DBC-CC0EA60B0822}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5BCDB910-A4C3-4F82-8DBC-CC0EA60B0822}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F380630-CD76-4051-A593-7C5A10A90D0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F380630-CD76-4051-A593-7C5A10A90D0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F380630-CD76-4051-A593-7C5A10A90D0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F380630-CD76-4051-A593-7C5A10A90D0A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

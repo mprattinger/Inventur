@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Inventur.App.Contracts
+namespace Inventur.Contracts.Messaging
 {
     public class MboxMessage
     {

@@ -1,4 +1,5 @@
-﻿using Inventur.Data.Models;
+﻿using Inventur.Contracts.Models;
+using Inventur.Data.Models;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;

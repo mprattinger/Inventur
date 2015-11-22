@@ -1,4 +1,6 @@
-﻿using Inventur.Data.Models;
+﻿using Inventur.Contracts.Interfaces;
+using Inventur.Contracts.Models;
+using Inventur.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -8,14 +10,6 @@ using System.Threading.Tasks;
 
 namespace Inventur.Data.Services
 {
-    public interface IDataService
-    {
-        Task<int> DeleteDataAsync(InventurItem item);
-        Task<List<InventurItem>> GetDataAsync();
-        Task<int> SaveDataAsync(InventurItem item, bool isNew = false);
-        Task<bool> SetExportedAsync();
-    }
-
     public class DataService : IDataService
     {
         //private InventurContext db = new InventurContext();*/
@@ -44,7 +38,8 @@ namespace Inventur.Data.Services
 
         public async Task<int> DeleteDataAsync(InventurItem item)
         {
-            using (var db = new InventurContext()) {
+            using (var db = new InventurContext())
+            {
                 db.InventurItems.Attach(item);
                 db.InventurItems.Remove(item);
                 return await db.SaveChangesAsync();
@@ -53,11 +48,12 @@ namespace Inventur.Data.Services
 
         public async Task<List<InventurItem>> GetDataAsync()
         {
-            using (var db = new InventurContext()) {
+            using (var db = new InventurContext())
+            {
                 return await (from i in db.InventurItems
                               where i.Exported == false
-                                  orderby i.ChangedAt descending
-                                  select i).ToListAsync();
+                              orderby i.ChangedAt descending
+                              select i).ToListAsync();
             }
         }
 

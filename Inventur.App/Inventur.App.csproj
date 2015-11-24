@@ -36,7 +36,7 @@
     <SuiteName>Lautner Tools</SuiteName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>12</ApplicationRevision>
+    <ApplicationRevision>13</ApplicationRevision>
     <ApplicationVersion>2.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -217,9 +217,9 @@
       <Project>{9f380630-cd76-4051-a593-7c5a10a90d0a}</Project>
       <Name>Inventur.Contracts</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Inventur.Data\Inventur.Data.csproj">
-      <Project>{5bcdb910-a4c3-4f82-8dbc-cc0ea60b0822}</Project>
-      <Name>Inventur.Data</Name>
+    <ProjectReference Include="..\Inventur.DataLiteDb\Inventur.DataLiteDb.csproj">
+      <Project>{7fef6cee-3215-4b00-8c06-a6ac74f398ad}</Project>
+      <Name>Inventur.DataLiteDb</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
